@@ -29,6 +29,7 @@ if READ_DOT_ENV_FILE:
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
+# 장고 디폴트 앱들
 DJANGO_APPS = [
     # Default Django apps:
     'django.contrib.auth',
@@ -44,8 +45,8 @@ DJANGO_APPS = [
     # Admin
     'django.contrib.admin',
 ]
+# 인터넷에서 보고 설치한 앱들
 THIRD_PARTY_APPS = [
-    'crispy_forms',  # Form layouts
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
@@ -56,8 +57,10 @@ LOCAL_APPS = [
     # custom users app
     'jinistagram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'jinistagram.images.apps.ImagesConfig',
 ]
 
+# 실행할때 처음 불러옴
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
