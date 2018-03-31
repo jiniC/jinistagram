@@ -8,11 +8,13 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class CommentSerializer(serializers.ModelSerializer):
+    image = ImageSerializer() # image = models.ForeignKey(Image, null=True)
     class Meta:
         model = models.Comment
         fields = '__all__'
 
 class LikeSerializer(serializers.ModelSerializer):
+    image = ImageSerializer() # nested serializer
     class Meta:
         model = models.Like
         fields = '__all__'
