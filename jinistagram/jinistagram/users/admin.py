@@ -32,8 +32,9 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserAdmin(AuthUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
+    # fieldsets에 추가해줘야 /admin에서 수정가능
     fieldsets = (
-            ('User Profile', {'fields': ('name', 'followers', 'following')}),
+            ('User Profile', {'fields': ('name', 'followers', 'following', 'profile_image')}),
     ) + AuthUserAdmin.fieldsets
     list_display = ('username', 'name', 'is_superuser')
     search_fields = ['name']

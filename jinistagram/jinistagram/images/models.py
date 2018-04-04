@@ -15,14 +15,18 @@ class TimeStampedModel(models.Model):
 @python_2_unicode_compatible
 class Image(TimeStampedModel):
     """ Image Model """
-    id = 1
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField()
-    creator = models.ForeignKey(user_models.User, null=True)
+    creator = models.ForeignKey(user_models.User, null=True, related_name='images')
     # image_set = (LOOK IN ALL THE COMMENTS FOR THE ONES THAT HAVE 'IMAGE' = 1)
+    @property
+    def like_count(self):
+        return self.likes.all().count()
     def __str__(self):
         return '{} - {}'.format(self.location, self.caption)
+    class Meta:
+        ordering = ['-created_at']
 
 @python_2_unicode_compatible
 class Comment(TimeStampedModel):
