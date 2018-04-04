@@ -18,3 +18,9 @@ class Feed(APIView):
         # print(sorted_list)
         serializer = serializers.ImageSerializer(sorted_list, many=True)
         return Response(serializer.data)
+
+class LikeImage(APIView):
+    # 데이터베이스에서 뭐가 변하면 post요청 (현재는 임시로 get)
+    def get(self, request, image_id, format=None):
+        print(image_id)
+        return Response(status=200)

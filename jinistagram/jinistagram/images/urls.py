@@ -8,4 +8,10 @@ urlpatterns = [
         view=views.Feed.as_view(),
         name='feed'
     ),
+    url(
+        regex=r'(?P<image_id>\w+)/like/',
+        view=views.LikeImage.as_view(),
+        name='like_image'
+    ),
 ]
+# url과 view 생성 -> url에서 id가져옴 -> id의 이미지 찾음 -> 이미지에 좋아요 생성
