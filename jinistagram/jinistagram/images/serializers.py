@@ -11,7 +11,7 @@ class FeedUserSerializer(serializers.ModelSerializer):
         )
 
 class CommentSerializer(serializers.ModelSerializer):
-    creator = FeedUserSerializer()
+    creator = FeedUserSerializer(read_only=True)
     # image = ImageSerializer() # image = models.ForeignKey(Image, null=True)
     class Meta:
         model = models.Comment
