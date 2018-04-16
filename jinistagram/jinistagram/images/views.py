@@ -73,7 +73,7 @@ class CommentOnImage(APIView):
         try:
             found_image = models.Image.objects.get(id=image_id)
         except models.Image.DoesNotExist:
-            return Response(status=status.HTTP_)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = serializers.CommentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(creator=user, image=found_image)
