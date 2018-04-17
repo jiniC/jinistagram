@@ -23,9 +23,14 @@ urlpatterns = [
         name='comment_image'
     ),
     url(
-        regex=r'comments/(?P<comment_id>[0-9]+)/$',
+        regex=r'^comments/(?P<comment_id>[0-9]+)/$',
         view=views.Comment.as_view(),
         name='comment'
+    ),
+    url(
+        regex=r'^search/$',
+        view=views.Search.as_view(),
+        name='search'
     )
 ]
 # url과 view 생성 -> url에서 id가져옴 -> id의 이미지 찾음 -> 이미지에 좋아요 생성

@@ -89,3 +89,21 @@ class Comment(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except models.Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class Search(APIView):
+    def get(self, request, format=None):
+        # print(request.query_params)
+        # hashtags = request.query_params.get('hashtags', None)
+        # print(hashtags) # terminal 창에 찍힘 (http://localhost:8000/images/search/?hashtags=busy)
+        # 해시태그가 배열로 들어감
+        hashtags = request.query_params.get('hashtags', None)
+        if hashtags is not None:
+            hashtags = hashtags.split(",")
+            # print(hashtags
+            images = models.Image.objects.filter(tags__name__in=hashtags).distinct()
+            # deep relationship 검색하는 방법
+            # tags__name, tags__name__in, tags__name__contains(대소문자구분), tags__name__exact(대소문자구분),tags__name__iexact(대소문자구분 no)
+            serializer = serializers.CountImageSerializer(images, many=True)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

@@ -52,7 +52,7 @@ class UserFollowers(APIView):
         serializer = serializers.ListUserSerializer(user_followers, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-
+# class based view
 class UserFollowing(APIView):
     def get(self, request, username, format=None):
         try:

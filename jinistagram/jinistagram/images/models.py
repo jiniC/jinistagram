@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from taggit.managers import TaggableManager
 from jinistagram.users import models as user_models # User 불러오기
 
 # Create your models here.
@@ -20,6 +21,7 @@ class Image(TimeStampedModel):
     caption = models.TextField()
     creator = models.ForeignKey(user_models.User, null=True, related_name='images')
     # image_set = (LOOK IN ALL THE COMMENTS FOR THE ONES THAT HAVE 'IMAGE' = 1)
+    tags = TaggableManager()
     @property
     def like_count(self):
         return self.likes.all().count()
