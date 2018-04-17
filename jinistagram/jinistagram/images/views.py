@@ -37,27 +37,33 @@ class LikeImage(APIView):
                 creator=user,
                 image=found_image
             )
+            # 이전에 좋아요한 오브젝트 발견하면 수정하지않음
             return Response(status=status.HTTP_304_NOT_MODIFIED)
-        #unlike
+        # unlike
         except models.Like.DoesNotExist:
             new_like = models.Like.objects.create(
                 creator=user,
                 image=found_image
             )
+            # 이전에 좋아요 하지않음 오브젝트 발견하면 수정
             new_like.save()
             return Response(status=status.HTTP_201_CREATED)
 
 class UnLikeImage(APIView):
     def delete(self, request, image_id, format=None):
         user = request.user
+        # like 찾기
         try:
             preexisiting_like = models.Like.objects.get(
                 creator=user,
                 image__id=image_id
             )
+            # 이전에 좋아요 있는 오브젝트 발견하면 수정
             preexisiting_like.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
+        # unlike 찾기
         except models.Like.DoesNotExist:
+            # 이전에 좋아요 없는 오브젝트 발견하면 수정하지않음
             return Response(status=status.HTTP_304_NOT_MODIFIED)
 
 class CommentOnImage(APIView):

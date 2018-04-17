@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from . import models
+#from jinistagram.users import models as user_models
 from jinistagram.images import serializers as images_serializers
 
 class UserProfileSerializer(serializers.ModelSerializer):

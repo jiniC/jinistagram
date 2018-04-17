@@ -28,7 +28,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
-
+    
     @property
     def post_count(self):
         return self.images.all().count()
