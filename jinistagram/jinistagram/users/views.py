@@ -7,7 +7,7 @@ class ExploreUsers(APIView):
     def get(self, request, format=None):
         # 인스타그램에서는 머신러닝으로 친구추천뜨지만 현재는 최근가입자5명만 보여짐
         last_five = models.User.objects.all().order_by('-date_joined')[:5]
-        serializer = serializers.ExploreUserSerializer(last_five, many=True)
+        serializer = serializers.ListUserSerializer(last_five, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 class FollowUser(APIView):
@@ -40,4 +40,25 @@ class UserProfile(APIView):
         except models.User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = serializers.UserProfileSerializer(found_user)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+class UserFollowers(APIView):
+    def get(self, request, username, format=None):
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        user_followers = found_user.followers.all()
+        serializer = serializers.ListUserSerializer(user_followers, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+class UserFollowing(APIView):
+    def get(self, request, username, format=None):
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        user_following = found_user.following.all()
+        serializer = serializers.ListUserSerializer(user_following, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
