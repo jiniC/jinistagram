@@ -60,6 +60,7 @@ LOCAL_APPS = [
     'jinistagram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'jinistagram.images.apps.ImagesConfig',
+    'jinistagram.notifications.apps.NotificationsConfig'
 ]
 
 # 실행할때 처음 불러옴
