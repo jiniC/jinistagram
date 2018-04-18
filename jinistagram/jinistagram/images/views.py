@@ -24,6 +24,7 @@ class LikeImage(APIView):
     # 데이터베이스에서 뭐가 변하면(http request보낼 수 있는건) post, put요청 (현재는 임시로 get)
     def post(self, request, image_id, format=None):
         user = request.user
+        # create notification for like
         # 이미지 찾기
         try:
             found_image=models.Image.objects.get(id=image_id)
@@ -69,6 +70,7 @@ class UnLikeImage(APIView):
 class CommentOnImage(APIView):
     def post(self, request, image_id, format=None):
         user = request.user
+        # comment notification
         try:
             found_image = models.Image.objects.get(id=image_id)
         except models.Image.DoesNotExist:

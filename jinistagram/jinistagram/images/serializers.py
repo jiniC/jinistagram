@@ -2,6 +2,13 @@ from rest_framework import serializers
 from . import models # images/models.py
 from jinistagram.users import models as user_models
 
+class SmallImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+        )
+
 class CountImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Image

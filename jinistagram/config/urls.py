@@ -14,7 +14,8 @@ urlpatterns = [
 
     # User management
     url(r'^users/', include('jinistagram.users.urls', namespace='users')),
-     url(r'^images/', include('jinistagram.images.urls', namespace='images')),
+    url(r'^images/', include('jinistagram.images.urls', namespace='images')),
+    url(r'^notifications/', include('jinistagram.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
