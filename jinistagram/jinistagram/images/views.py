@@ -16,6 +16,9 @@ class Feed(APIView):
             # user_images = following_users.images.all()
             for image in user_images:
                 image_list.append(image)
+        my_images = user.images.all()[:2]
+        for image in my_images:
+            image_list.append(image)
         sorted_list = sorted(image_list, key=lambda image: image.created_at, reverse=True)
         # print(sorted_list)
         serializer = serializers.ImageSerializer(sorted_list, many=True)
