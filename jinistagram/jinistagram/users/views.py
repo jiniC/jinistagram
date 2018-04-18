@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
+from jinistagram.notifications import views as notification_views
 
 class ExploreUsers(APIView):
     def get(self, request, format=None):
@@ -13,14 +14,15 @@ class ExploreUsers(APIView):
 class FollowUser(APIView):
     def post(self, request, user_id, format=None):
         # pass
-        user = request.user
-        # follow notification
+        user = request.user # 나를 follow 하는사람
         try:
             user_to_follow = models.User.objects.get(id=user_id)
         except models.User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         user.following.add(user_to_follow) # many to many 에서 추가
         user.save()
+        # follow notification
+        notification_views.create_notification(user, user_to_follow, 'follow')
         return Response(status=status.HTTP_200_OK)
 
 class UnFollowUser(APIView):

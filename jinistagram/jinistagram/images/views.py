@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status # django status code
 from . import models, serializers
+from jinistagram.notifications import views as notification_views
 
 class Feed(APIView):
     def get(self, request, format=None):
@@ -24,8 +25,7 @@ class LikeImage(APIView):
     # 데이터베이스에서 뭐가 변하면(http request보낼 수 있는건) post, put요청 (현재는 임시로 get)
     def post(self, request, image_id, format=None):
         user = request.user
-        # create notification for like
-        # 이미지 찾기
+         # 이미지 찾기
         try:
             found_image=models.Image.objects.get(id=image_id)
         except models.Image.DoesNotExist:
@@ -48,6 +48,8 @@ class LikeImage(APIView):
             )
             # 이전에 좋아요 하지않음 오브젝트 발견하면 수정
             new_like.save()
+            # create notification for like
+            notification_views.create_notification(user, found_image.creator, 'like', found_image)
             return Response(status=status.HTTP_201_CREATED)
 
 class UnLikeImage(APIView):
@@ -70,12 +72,15 @@ class UnLikeImage(APIView):
 class CommentOnImage(APIView):
     def post(self, request, image_id, format=None):
         user = request.user
-        # comment notification
+       
         try:
             found_image = models.Image.objects.get(id=image_id)
         except models.Image.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = serializers.CommentSerializer(data=request.data)
+         # comment notification
+        notification_views.create_notification(user, found_image.creator, 'comment', found_image, serializer.data['message'])
+        # serializer.data['message'] = request.data['message']
         if serializer.is_valid():
             serializer.save(creator=user, image=found_image)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
