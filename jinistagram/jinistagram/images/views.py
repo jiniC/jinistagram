@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status # django status code
 from . import models, serializers
+from jinistagram.users import models as user_models
+from jinistagram.users import serializers as user_serializers
 from jinistagram.notifications import views as notification_views
 
 class Feed(APIView):
@@ -25,6 +27,16 @@ class Feed(APIView):
         return Response(serializer.data)
 
 class LikeImage(APIView):
+    def get(self, request, image_id, format=None):
+        # likes 긁어옴
+        likes = models.Like.objects.filter(image__id=image_id)
+        like_creators_ids = likes.values('creator_id')
+        # id__in: array 안에있는 id검색
+        users = user_models.User.objects.filter(id__in=like_creators_ids)
+        serializer = user_serializers.ListUserSerializer(users, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+        print(users)
+        # image__id: id가 image안에 있음을 의미함
     # 데이터베이스에서 뭐가 변하면(http request보낼 수 있는건) post, put요청 (현재는 임시로 get)
     def post(self, request, image_id, format=None):
         user = request.user
@@ -128,8 +140,14 @@ class ModerateComments(APIView):
         except models.Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         return Response(status=status.HTTP_204_NO_CONTENT)
-
+        
 class ImageDetail(APIView):
+    def find_own_image(self, image_id, user):
+        try:
+            image = models.Image.objects.get(id=image_id, creator=user)
+            return image
+        except models.Image.DoesNotExist:
+            return None
     def get(self, request, image_id, format=None):
         user = request.user
         try:
@@ -138,3 +156,10 @@ class ImageDetail(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
         serializer = serializers.ImageSerializer(image)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
+    def delete(self, request, image_id, format=None):
+        user = request.user
+        image = self.find_own_image(image_id, user)
+        if image is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        image.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
