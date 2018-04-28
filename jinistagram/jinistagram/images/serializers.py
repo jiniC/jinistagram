@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from taggit_serializer.serializers import (TagListSerializerField,
-                                           TaggitSerializer)
+from taggit_serializer.serializers import (TagListSerializerField, TaggitSerializer)
 from . import models # images/models.py
 from jinistagram.users import models as user_models
 
@@ -64,4 +63,21 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
             'creator',
             'tags',
             'created_at'
+        )
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Like
+        fields = (
+            'creator',
+        )
+
+
+class InputImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+            'location',
+            'caption',
         )
