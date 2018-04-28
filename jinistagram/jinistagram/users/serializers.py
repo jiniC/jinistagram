@@ -4,7 +4,7 @@ from . import models
 from jinistagram.images import serializers as images_serializers
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    images = images_serializers.CountImageSerializer(many=True)
+    images = images_serializers.CountImageSerializer(many=True, read_only=True)
     post_count = serializers.ReadOnlyField() # 해당 필드 수정 안함
     followers_count = serializers.ReadOnlyField()
     following_count = serializers.ReadOnlyField()
