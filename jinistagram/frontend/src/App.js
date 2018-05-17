@@ -11,7 +11,8 @@ class App extends Component {
           <h1 className={styles.App__title}>Welcome to React</h1>
         </header>
         <p className={styles.App__intro}>
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>src/App.js</code> and save to reload.<br/>
+          yarn start -> 3000server: develop app<br/>(proxy: 3000 -> 8000)<br/>>yarn build -> 8000server: product
         </p>
       </div>
     );

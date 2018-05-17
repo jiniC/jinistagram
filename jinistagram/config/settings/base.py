@@ -57,6 +57,7 @@ THIRD_PARTY_APPS = [
     'taggit_serializer', # Tag serializer
     'rest_auth', # rest auto
     'rest_auth.registration', # enable regitstation
+    'corsheaders' # To accept requests from React
 ]
 
 # Apps specific for this project go here.
@@ -77,6 +78,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -199,7 +201,8 @@ STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
-    str(APPS_DIR.path('static')),
+    str(APPS_DIR.path('static')), # jinistagram>static
+    str(ROOT_DIR.path('frontend','build','static')) # jinistagram>frontend>build>static
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -296,3 +299,5 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 ACCOUNT_LOGOUT_ON_GET = True # 원래 로그아웃하면 데이터베이스가 변해서 post해야되지만 편의를 위해 get으로 로그아웃 가능하게 함
+SOCIALACCOUNT_QUERY_EMAIL = True
+CORS_ORIGIN_ALLOW_ALL = True
