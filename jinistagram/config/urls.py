@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^images/', include('jinistagram.images.urls', namespace='images')),
     url(r'^notifications/', include('jinistagram.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^', views.ReactAppView.as_view()), # catch all url
+    url(r'^', views.ReactAppView.as_view()), # catch-all-url localhost:8000 (:3000은 frontend>App.js (build전))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
