@@ -3,8 +3,8 @@
 //action creators
 //initial state
 const initialState = {
-    isLoggedIn: localStorage.localStorage.getItem("jwt") || false
-}
+	isLoggedIn: localStorage.getItem('jwt') || false
+};
 //reducer
 function reducer(state = initialState, action) {
     switch(action.type) {
@@ -13,7 +13,6 @@ function reducer(state = initialState, action) {
     }
 }
 //reducer functions
-
 //exports
 
 //reducer export
