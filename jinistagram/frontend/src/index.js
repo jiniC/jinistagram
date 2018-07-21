@@ -5,7 +5,8 @@ import store from "redux/configureStore";
 import 'index.css';
 import App from 'App';
 
-console.log(store.getState());
+//console.log(store.getState());
+//store.dispatch({type:"HIJINI"}); //dev 환경에서 logger 확인
 
 ReactDOM.render(
     <Provider store={store}>
