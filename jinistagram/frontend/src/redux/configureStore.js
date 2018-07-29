@@ -3,6 +3,8 @@ import { routerReducer, routerMiddleware } from "react-router-redux";
 import createHistory from "history/createBrowserHistory";
 import thunk from "redux-thunk";
 import users from 'redux/modules/users';
+import Reactotron from "ReactotronConfig";
+import { composeWithDevTools } from "redux-devtools-extension";
 //import { logger } from "redux-logger"; => prod 일때도  redux-logger를 부름 (무거워짐)
 
 // process: node js 의 전체 정보 가지고 있는 변수
@@ -22,7 +24,16 @@ const reducer = combineReducers({
     routing: routerReducer
 });
 
-let store = initialState => createStore(reducer, applyMiddleware(...middlewares)); 
+let store;
+
+if(env==="development") {
+    // dev일때: 리액토트론, 스토어 생성
+    store = initialState => Reactotron.createStore(reducer, composeWithDevTools(applyMiddleware(...middlewares)));
+} else {
+    // product일때: 노멀 리덕스랑 스토어 생성
+    store = initialState => createStore(reducer, applyMiddleware(...middlewares)); 
+}
+
 // middlewares 만 써주면 배열 [thunk] 를 풀어서 써줌
 
 export { history };

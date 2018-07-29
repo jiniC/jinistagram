@@ -5,6 +5,7 @@ import { ConnectedRouter } from "react-router-redux";
 import store, { history } from "redux/configureStore";
 import 'index.css';
 import App from 'App';
+import "ReactotronConfig";
 
 //console.log(store.getState());
 //store.dispatch({type:"HIJINI"}); //dev 환경에서 logger 확인
