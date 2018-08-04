@@ -4,6 +4,7 @@ import createHistory from "history/createBrowserHistory";
 import thunk from "redux-thunk";
 import users from 'redux/modules/users';
 import Reactotron from "ReactotronConfig";
+import { i18nState } from "redux-i18n";
 import { composeWithDevTools } from "redux-devtools-extension";
 //import { logger } from "redux-logger"; => prod 일때도  redux-logger를 부름 (무거워짐)
 
@@ -21,7 +22,8 @@ if(env==="development") {
 // 리듀서들 합침 -> 한개의 스토어
 const reducer = combineReducers({
     users,
-    routing: routerReducer
+    routing: routerReducer,
+    i18nState
 });
 
 let store;
