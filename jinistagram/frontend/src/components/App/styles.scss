@@ -1,1 +1,6 @@
 @import "reset-css/reset.css";
+//@import "../../config/_variables"; -> frontend/config 에서 추가 해줌
+
+body {
+    background-color: $bg-color;
+}
